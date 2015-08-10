@@ -1,0 +1,47 @@
+﻿* { box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing:border-box; }
+
+html, body {
+    height: 100%;
+}
+
+/*TEAM SCORES TABLE*/
+table#team-scores { width: 100%; margin-right: auto; margin-left: auto; }
+table#team-scores tbody tr td, table#team-scores tbody tr th { cursor: pointer; }
+table#team-scores thead tr:first-child th { text-align: center; }
+table#team-scores tbody tr td:first-child { width: 80%; text-align: left; }
+table#team-scores tbody tr td:nth-child(2) { width: 10%; text-align: right; }
+table#team-scores tbody tr td:last-child { width: 10%; text-align: center; }
+
+table#team-scores tbody tr.player-names { display: none; }
+table#team-scores tbody tr.player-names td { text-align: left; }
+
+#feed { text-align: center; }
+
+#feed-field {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#feed-field input[type=text] {
+    float:left;
+}
+
+#feed-field input[type=button] {
+    float: right;
+}
+
+.feed-item {
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+}
+
+.new-item {
+    background-color: green;
+    color: white;
+    font-weight: bold; 
+}
+
+.new-item th, .new-item td { background-color: green !important; color: white !important; }
+
+.feed-item-suffix { font-style: italic; font-size: smaller; }
+.team-name { width: 100%; text-align: center; font-weight: bold; text-decoration: underline; font-size: 2em; margin-bottom: 15px; }

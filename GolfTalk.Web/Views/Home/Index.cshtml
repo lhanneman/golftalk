@@ -1,0 +1,131 @@
+﻿@model GolfTalk.Models.ViewModels.MainViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+
+    @* TOP *@
+    <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+        @if (!string.IsNullOrEmpty(Model.TeamName))
+        {
+            <div class="team-name">@Model.TeamName</div>
+        }
+        <table id="team-scores" class="table table-striped">
+            <thead>
+                <tr>
+                    <th colspan="2">CURRENT STANDINGS</th>
+                    <th>THRU</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (GolfTalk.Models.TeamsScore team in Model.TeamScores)
+                {
+                    <tr id="@team.TeamID" class="team-name-row">
+                        <th>@team.Name</th>
+                        <td rel="score">@(team.Score > 0 ? "+" + team.Score.ToString() : team.Score.ToString())</td>
+                        <td rel="thru">@team.Thru</td>
+                    </tr>
+                    <tr class="player-names" rel="@team.TeamID">
+                        <td colspan="3">@team.PlayerNames</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @* MIDDLE *@
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div id="feed-field" class="input-group">
+            <input type="text" id="feed-message" placeholder="Enter trash talk message here" class="form-control" />
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" id="feed-button">Send</button>
+            </span>
+        </div>
+        <div id="feed">
+            @foreach (GolfTalk.Models.Chat chat in Model.ChatEntries)
+            {
+                <div class="feed-item">
+                    @Html.Raw(chat.Message)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#feed-button").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: "@Url.Action("SendTrashTalkMessage", "Home")",
+                    data: { message: $("#feed-message").val() },
+                    success: ParseMessage,
+                    error: ShowError
+                });
+            });
+
+            $("#feed-message").keydown(function (e) {
+                var keyCode = e.keyCode || e.which;
+                if (keyCode === 13) {
+                    // enter:
+                    $("#feed-button").click();
+                }
+                return true;
+            });
+
+            $("tr.team-name-row").on("click", function () {
+                var thisTeamId = $(this).attr("id");
+                var playerRow = $(this).siblings().filter(function () {
+                    return $(this).attr("rel") == thisTeamId;
+                });
+
+                if (playerRow.length) {
+                    playerRow.slideDown();
+                    setTimeout(function () { playerRow.slideUp(); }, 3000);
+                }
+
+            });
+
+            var hub = $.connection.ChatHub;
+
+            hub.client.updateFeed = function (message) {
+                var html = "<div class='feed-item new-item'>" + message + "</div>";
+                var firstItem = $("#feed").find(".feed-item").first();
+                if (firstItem.length) {
+                    firstItem.before(html).hide().fadeIn();
+                } else {
+                    $("#feed").html(html).hide().fadeIn();
+                }
+
+                setTimeout(function () { $(".new-item:last").removeClass("new-item"); }, 5000);
+            }
+
+            hub.client.updateScore = function (teamId, score, thru) {
+                var teamRow = $("#team-scores").find("tr#" + teamId);
+                if (teamRow.length) {
+
+                    // update the values:
+                    teamRow.find("td[rel='score']").html(score);
+                    teamRow.find("td[rel='thru']").html(thru);
+                    teamRow.addClass("new-item");
+
+                    setTimeout(function () { teamRow.removeClass("new-item"); }, 5000);
+                }
+            }
+
+            $.connection.hub.start();
+        });
+
+        function ParseMessage(message) {
+            $("#feed-message").val("");
+        }
+
+        function ShowError(a, b, c) {
+            alert(a.responseText);
+        }
+    </script>
+
+}

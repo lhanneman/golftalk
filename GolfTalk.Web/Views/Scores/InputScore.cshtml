@@ -1,0 +1,27 @@
+﻿@model GolfTalk.Models.Score
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("Add", "Scores", FormMethod.Post))
+{
+    <fieldset>
+        <legend>
+            Score Input
+        </legend>
+        <input type="hidden" name="teamId" value="@ViewBag.TeamID" />
+        <div class="form-group">
+            @Html.LabelFor(m => m.Hole)
+            @Html.DropDownList("HoleList", null, "", new { @class = "form-control", Name = "holeId" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Strokes)
+            @Html.DropDownList("StrokeList", null, "", new { @class = "form-control", Name = "strokes" })
+
+        </div>
+        <input class="btn btn-success" type="submit" value="Add Score"/>
+    </fieldset>
+    
+}
