@@ -233,7 +233,6 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="LICENSE" />
-    <Content Include="README.md" />
     <Content Include="Content\fontawesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fontawesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fontawesome\fonts\fontawesome-webfont.woff" />
