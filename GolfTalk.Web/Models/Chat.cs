@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GolfTalk.Models
 {
     public class Chat
     {
         public int ChatID { get; set; }
-        public Guid TeamID { get; set; }
+        [ForeignKey("Team")]
+        public long TeamID { get; set; }
         public string Message { get; set; }
         public virtual Team Team { get; set; }
+
+        public  string test { get; set; }
     }
 }

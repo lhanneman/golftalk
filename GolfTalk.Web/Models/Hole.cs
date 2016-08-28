@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace GolfTalk.Models
@@ -9,6 +6,16 @@ namespace GolfTalk.Models
     public class Hole
     {
         private readonly List<Hole> _holes;
+
+        public Hole()
+        {
+            
+        }
+
+        public Hole(List<Hole> holes)
+        {
+            _holes = holes;
+        }
 
         public int HoleID { get; set; }
         public int HoleNumber { get; set; }

@@ -1,0 +1,39 @@
+﻿<table class="table add-scores-table">
+    <tbody>
+        <tr>
+            <td colspan="3">Hole</td>
+        </tr>
+        <tr>
+            <td>
+                <i class="fa fa-minus-circle fa-3x minus change-number" aria-hidden="true"></i>
+            </td>
+            <td>
+                <input type="number" id="holeNumber" min="1" max="18" value="@Model.ScoreData.HoleNumber" />
+            </td>
+            <td>
+                <i class="fa fa-plus-circle fa-3x add change-number" aria-hidden="true"></i>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">Strokes</td>
+        </tr>
+        <tr>
+            <td>
+                <i class="fa fa-minus-circle fa-3x minus change-number" aria-hidden="true"></i>
+            </td>
+            <td>
+                <input type="number" id="strokes" min="1" max="20" value="@Model.ScoreData.Strokes" />
+            </td>
+            <td>
+                <i class="fa fa-plus-circle fa-3x add change-number" aria-hidden="true"></i>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <button class="btn btn-default submit-score">
+                    SUBMIT SCORE
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -8,7 +8,7 @@ GolfTalk exists because I wanted a way to make our employer-sponsored golf outin
 
 ## Installation
 
-No installation necessary - just open the solution in Visual Studio. This project is written in C# using Entity Framework, but uses jQuery and SignalR for the score updates and trash talk messages, and a Boostrap layout so it is mobile friendly out on the course.
+No installation necessary - just open the solution in Visual Studio. This project is written in C# using Entity Framework, but uses jQuery and SignalR for the score updates and trash talk messages, and a Boostrap layout so it is mobile friendly out on the course. It can be easily deployed to Azure or any other hosting service to get up and running in no time.
 
 ## Docs
 
@@ -17,4 +17,4 @@ The project itself is pretty self explanatory. `DataAccess\GolfInitializer.cs` c
 
 ## Contributors
 
-Contributions are welcome! Some ideas I've got, but may or may not get around too as soon as I'd like, include an actual authentication system with real user accounts/logins, support for more golf courses or importing golf course information. Trash talk and chat improvments would be nice as well, such as GIF support, etc.
+Contributions are welcome!

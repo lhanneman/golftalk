@@ -4,51 +4,70 @@
 }
 
 <div class="row">
-
-    @* TOP *@
-    <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
-        @if (!string.IsNullOrEmpty(Model.TeamName))
-        {
-            <div class="team-name">@Model.TeamName</div>
-        }
-        <table id="team-scores" class="table table-striped">
-            <thead>
-                <tr>
-                    <th colspan="2">CURRENT STANDINGS</th>
-                    <th>THRU</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (GolfTalk.Models.TeamsScore team in Model.TeamScores)
-                {
-                    <tr id="@team.TeamID" class="team-name-row">
-                        <th>@team.Name</th>
-                        <td rel="score">@(team.Score > 0 ? "+" + team.Score.ToString() : team.Score.ToString())</td>
-                        <td rel="thru">@team.Thru</td>
-                    </tr>
-                    <tr class="player-names" rel="@team.TeamID">
-                        <td colspan="3">@team.PlayerNames</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    @* MIDDLE *@
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div id="feed-field" class="input-group">
-            <input type="text" id="feed-message" placeholder="Enter trash talk message here" class="form-control" />
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" id="feed-button">Send</button>
-            </span>
+    @if (!string.IsNullOrEmpty(Model.TeamName))
+    {
+        <div class="team-container">
+            <div class="team">
+                @Model.TeamName
+            </div>
         </div>
-        <div id="feed">
-            @foreach (GolfTalk.Models.Chat chat in Model.ChatEntries)
-            {
-                <div class="feed-item">
-                    @Html.Raw(chat.Message)
+    }
+    <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#scores">Standings</a></li>
+            <li><a data-toggle="tab" href="#add-score">Add Score</a></li>
+            <li><a data-toggle="tab" href="#comments">Comments</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="scores" class="tab-pane fade in active">
+                <table id="team-scores" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th colspan="2"></th>
+                            <th>THRU</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var team in Model.TeamScores)
+                        {
+                            <tr id="@team.TeamID" class="team-name-row">
+                                <th>@team.Name</th>
+                                <td rel="score">@(team.Score > 0 ? "+" + team.Score : team.Score.ToString())</td>
+                                <td rel="thru">@team.Thru</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="add-score" class="tab-pane fade in">
+                @if (Request.IsAuthenticated)
+                {
+                    @Html.Partial("_AddScorePartial")
+                }
+                else
+                {
+                    <div>please register or login to add a score</div>
+                }
+            </div>
+            <div id="comments" class="tab-pane fade in">
+                @if (Request.IsAuthenticated)
+                {
+                    <div id="feed-field" class="input-group">
+                        <input type="text" id="feed-message" placeholder="Enter trash talk message here" class="form-control" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="feed-button">Send</button>
+                        </span>
+                    </div>
+                }
+                <div id="feed">
+                    @foreach (var chat in Model.ChatEntries)
+                    {
+                        <div class="feed-item">
+                            @Html.Raw(chat.Message)
+                        </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
     </div>
 </div>
@@ -57,7 +76,53 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("#feed-button").click(function () {
+            $(".change-number").off("click").on("click", function () {
+                var self = $(this);
+                var add = self.hasClass("add");
+                var input = self.parents("tr:first").find("input:first");
+                var currentValue = !isNaN(input.val()) ? +input.val() : 0;
+                var min = +input.attr("min");
+                var max = +input.attr("max");
+
+                if (add) {
+                    currentValue += 1;
+                } else {
+                    currentValue -= 1;
+                }
+
+                if (currentValue > max || currentValue < min) {
+                    return;
+                }
+
+                input.val(currentValue);
+            });
+
+            $(".submit-score").off("click").on("click", function () {
+
+                $(".nav-tabs a[href='#scores']").tab("show");
+
+                var holeNum = $("#holeNumber").val();
+                var strokes = $("#strokes").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Content("~/scores/add")",
+                    data: JSON.stringify({ Strokes: strokes, HoleNumber: holeNum }),
+                    contentType: "application/json",
+                    success: function (json) {
+                        if (json !== null && json !== undefined && json !== "") {
+                            var nextHole = JSON.parse(json);
+                            $("#holeNumber").val(nextHole.HoleNumber);
+                            $("#strokes").val(nextHole.Strokes);
+                        }
+                    },
+                    error: function (a, b, c) {
+                        alert("error adding score: " + a.responseText);
+                    }
+                });
+            });
+
+            $("#feed-button").off("click").on("click", function () {
                 $.ajax({
                     type: 'POST',
                     url: "@Url.Action("SendTrashTalkMessage", "Home")",
@@ -78,15 +143,14 @@
 
             $("tr.team-name-row").on("click", function () {
                 var thisTeamId = $(this).attr("id");
-                var playerRow = $(this).siblings().filter(function () {
-                    return $(this).attr("rel") == thisTeamId;
-                });
+                window.location.href = "/scoreboard/" + thisTeamId;
+            });
 
-                if (playerRow.length) {
-                    playerRow.slideDown();
-                    setTimeout(function () { playerRow.slideUp(); }, 3000);
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr("href");
+                if (target === "#comments") {
+                    clearCommentBadgeCount();
                 }
-
             });
 
             var hub = $.connection.ChatHub;
@@ -100,14 +164,25 @@
                     $("#feed").html(html).hide().fadeIn();
                 }
 
+                var userIsOnCommentsTab = $("ul.nav-tabs>li.active").text() === "Comments";
+                if (!userIsOnCommentsTab) {
+                    incrementCommentBadgeCount();
+                } else {
+                    clearCommentBadgeCount();
+                }
+
                 setTimeout(function () { $(".new-item:last").removeClass("new-item"); }, 5000);
             }
 
             hub.client.updateScore = function (teamId, score, thru) {
                 var teamRow = $("#team-scores").find("tr#" + teamId);
                 if (teamRow.length) {
-
+                    
                     // update the values:
+                    if (!isNaN(score) && score > 0) {
+                        score = "+" + score;
+                    }
+
                     teamRow.find("td[rel='score']").html(score);
                     teamRow.find("td[rel='thru']").html(thru);
                     teamRow.addClass("new-item");
@@ -126,6 +201,26 @@
         function ShowError(a, b, c) {
             alert(a.responseText);
         }
+
+        function incrementCommentBadgeCount() {
+            var commentLink = $("a[href='#comments'");
+            //var li = commentLink.parent();
+            var badge = commentLink.find(".badge");
+
+            if (badge.length === 0) {
+                commentLink.html("Comments<span class='badge'>1</span>");
+            } else {
+                var currentCounter = +badge.text();
+                currentCounter += 1;
+                badge.html(currentCounter);
+            }
+        }
+
+        function clearCommentBadgeCount() {
+            var commentLink = $("a[href='#comments'");
+            commentLink.find(".badge").remove();
+        }
+
     </script>
 
 }

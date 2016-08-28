@@ -1,0 +1,39 @@
+﻿@model GolfTalk.Models.ViewModels.ScoreboardViewModel
+
+<button class="btn btn-default"><a href="@Url.Content("~/home")">Back</a></button>
+<h2>@Model.TeamName (@Model.TotalScore)</h2>
+<h4>(@Model.TeamMembers)</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Hole</th>
+            <th>Par</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var score in Model.Scores)
+        {
+            // circle/squares for birdies/bogeys:
+            var scoreClass = "";
+            if (score.Strokes == (score.Par - 1))
+            {
+                scoreClass = "birdie";
+            } else if (score.Strokes == (score.Par + 1))
+            {
+                scoreClass += "bogey";
+            }
+            else
+            {
+                scoreClass = "default-score";
+            }
+
+            <tr completed-hole="@score.CompletedHole.ToString().ToLower()">
+                <th>@score.HoleNumber</th>
+                <td>@score.Par</td>
+                <td><div class="@scoreClass">@score.Strokes</div></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

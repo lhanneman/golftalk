@@ -1,130 +1,85 @@
-﻿using GolfTalk.DataAccess;
+﻿using System.Collections.Generic;
+using GolfTalk.DataAccess;
 using GolfTalk.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using GolfTalk.SignalR;
+using GolfTalk.Models;
+using GolfTalk.Models.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Newtonsoft.Json;
 
 namespace GolfTalk.Controllers
 {
+    [Authorize]
     public class ScoresController : Controller
     {
+        private GolfContext Context { get; }
+        protected UserManager<ApplicationUser> UserManager { get; set; }
 
-        private GolfContext db = new GolfContext();
-
-        // get the view for adding a score:
-        [HttpGet]
-        public ActionResult Add(Guid? teamId = null)
+        public ScoresController()
         {
-            // if a team ID was not provided, check for a cookie:
-            if (teamId == null)
-            {
-                // get team ID from cookie:
-                teamId = GetTeamId();
-
-                if (teamId == null)
-                {
-                    // still null?
-                    return RedirectToAction("Index", "Error", new { message = "Team ID not found. Please refer to the email you received with the link which contains your team ID and navigate back to the site from there." });
-                }
-            }
-            else if (teamId.HasValue)
-            {
-                // put this in the cookie:
-                SetTeamId(teamId);
-            }
-
-            // check current hole scores for this team, and default the dropdown to the next hole they'll pick.
-            // For example, if the last score they entered was for hole 3, we'll default the dropdown to select hole 4 so they don't have to:
-            GolfTalk.Models.Score last = db.Scores.Where(s => s.TeamID == teamId).OrderByDescending(h => h.Hole.HoleNumber).FirstOrDefault();
-            int thisHole = last != null ? last.Hole.HoleNumber + 1 : 1;
-            ViewBag.HoleList = new SelectList(db.Holes.OrderBy(h => h.HoleNumber), "HoleID", "HoleNumber", thisHole);
-
-            // we need to tell the page what the par is for this current hole so we can default the "strokes" dropdown to that value:
-            GolfTalk.Models.Hole hole = db.Holes.Where(h => h.HoleNumber == thisHole).FirstOrDefault();
-            int thisPar = hole != null ? hole.Par : 4;
-            ViewBag.StrokeList = new SelectList(Enumerable.Range(1, 20), thisPar);
-
-            ViewBag.TeamID = teamId;
-
-            return View("InputScore");
+            Context = new GolfContext();
+            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(Context));
         }
 
         // method for adding a score for a team:
         [HttpPost]
-        public ActionResult Add(Guid? teamId, int holeID, int strokes)
+        public string Add(ScoreViewModel model)
         {
-
-            // if a team ID was not provided, check for a cookie:
-            if (teamId == null)
-            {
-                // get team ID from cookie:
-                teamId = GetTeamId();
-
-                if (teamId == null)
-                {
-                    // still null?
-                    return RedirectToAction("Index", "Error", new { message = "Team ID not found. Please refer to the email you received with the link which contains your team ID and navigate back to the site from there." });
-                }
-            }
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var teamId = user.Team.TeamID;
+            var hole = Context.Holes.FirstOrDefault(h => h.HoleNumber.Equals(model.HoleNumber));
+            var holeId = hole.HoleID;
+            var nextHole = Context.Holes.FirstOrDefault(h => h.HoleNumber.Equals(hole.HoleNumber + 1));
 
             // check if they've entered a score for this hole ID already:
-            GolfTalk.Models.Score score = db.Scores.Where(t => t.TeamID == teamId && t.HoleID == holeID).FirstOrDefault();
+            var score = Context.Scores.FirstOrDefault(t => t.TeamID == teamId && t.HoleID.Equals(holeId));
 
             if (score == null)
             {
-                score = new Models.Score();
-                score.Strokes = strokes;
-                score.HoleID = holeID;
-                score.TeamID = new Guid(teamId.ToString());
-                db.Scores.Add(score);
-            } else
+                Context.Scores.Add(new Score
+                {
+                    Strokes = model.Strokes,
+                    HoleID = holeId,
+                    TeamID = teamId
+                });
+            }
+            else
             {
-                score.Strokes = strokes;
+                score.Strokes = model.Strokes;
             }
 
+            var team = Context.Teams.FirstOrDefault(t => t.TeamID == teamId);
+            // var hole = Context.Holes.FirstOrDefault(h => h.HoleID.Equals(holeId));
+            var chatMessage = "";
 
-            GolfTalk.Models.Chat newChat = new Models.Chat();
+            if (team != null && hole != null)
+            {
+                chatMessage = MessageBuilder.GetNewScoreMessage(hole.HoleNumber, team.Name, model.Strokes, hole.Par);
+                Context.Chats.Add(new Chat
+                {
+                    Message = chatMessage,
+                    TeamID = teamId
+                });
+            }
 
-            GolfTalk.Models.Team team = db.Teams.Where(t => t.TeamID == teamId).FirstOrDefault();
-            GolfTalk.Models.Hole hole = db.Holes.Where(h => h.HoleID == holeID).FirstOrDefault();
-            newChat.Message = MessageBuilder.GetNewScoreMessage(hole.HoleNumber, team.Name, strokes, hole.Par);
-            newChat.TeamID = Guid.Parse(teamId.ToString());
-
-            db.Chats.Add(newChat);
-            
-            db.SaveChanges();
+            Context.SaveChanges();
 
             // get this team's score/thru holes for signal R to push out:
-            int updatedScore = ScoreHelper.CalculateScore(Guid.Parse(teamId.ToString()));
-            int thru = ScoreHelper.CalculateThru(Guid.Parse(teamId.ToString()));
+            var updatedScore = ScoreHelper.CalculateScore(teamId);
+            var thru = ScoreHelper.CalculateThru(teamId);
 
             // we need to broadcast this new chat message via signal R:
             ChatHub.UpdateScore(teamId.ToString(), updatedScore, thru);
-            ChatHub.Update(newChat.Message);
+            ChatHub.Update(chatMessage);
 
-            return RedirectToAction("Index", "Home", new { teamId = teamId.ToString() });
+            //return RedirectToAction("Index", "Home", new { teamId = teamId.ToString() });
+
+            // return the next hole:
+            return nextHole != null ? JsonConvert.SerializeObject(new ScoreViewModel() { HoleNumber = nextHole.HoleNumber, Strokes = nextHole.Par }) : "";
         }
-
-        private Guid? GetTeamId()
-        {
-            if (Request.Cookies["GOLFTALK_TEAM_ID"] != null)
-            {
-                return new Guid(Request.Cookies["GOLFTALK_TEAM_ID"].Value);
-            }
-
-            return null;
-        }
-
-        private void SetTeamId(Guid? teamId)
-        {
-            HttpCookie cookie = new HttpCookie("GOLFTALK_TEAM_ID");
-            cookie.Value = teamId.ToString();
-            cookie.Expires = DateTime.Now.AddDays(1);
-            Response.Cookies.Add(cookie);
-        }
-
     }
 }

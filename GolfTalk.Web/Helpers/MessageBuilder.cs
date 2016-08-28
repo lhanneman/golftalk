@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
 
 namespace GolfTalk.Helpers
 {
@@ -10,21 +7,13 @@ namespace GolfTalk.Helpers
     {
         public static string GetNewScoreMessage(int holeNumber, string teamName, int strokes, int par)
         {
-            StringBuilder sb = new StringBuilder();
-            bool good = strokes <= par;
+            var sb = new StringBuilder();
+            var good = strokes <= par;
 
-            if (good)
-            {
-                sb.Append("Watch Out! ");
-            }
-            else
-            {
-                sb.Append("Uh oh... ");
-            }
+            sb.Append(good ? "Watch Out! " : "Cripes... ");
 
             sb.Append("<b>" + teamName + "</b> just ");
 
-            #region get golf term for score
             if (good)
             {
                 if (strokes == par)
@@ -82,19 +71,10 @@ namespace GolfTalk.Helpers
                 }
             }
 
-            #endregion
-
             sb.Append("hole " + holeNumber);
-
-            //sb.Append(" <span class='feed-item-suffix'>@ " + DateTime.Now.ToShortTimeString() + "</span");
             sb.Append(" <i>@ " + DateTime.Now.ToShortTimeString() + "</i>");
 
             return sb.ToString();
-
         }
-
-       
-
-       
     }
 }

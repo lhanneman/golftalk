@@ -1,14 +1,21 @@
-﻿using GolfTalk.Models;
-using System.Collections.Generic;
-
-namespace GolfTalk.DataAccess
+namespace GolfTalk.Migrations
 {
-    public class GolfInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<GolfContext>
-    {
-        protected override void Seed(GolfContext context)
-        {
+    using Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
 
-            // default data - update for whatever course you want
+    internal sealed class Configuration : DbMigrationsConfiguration<DataAccess.GolfContext>
+    {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+        }
+
+        protected override void Seed(DataAccess.GolfContext context)
+        {
 
             context.Database.ExecuteSqlCommand("delete from Team");
             context.Database.ExecuteSqlCommand("delete from Hole");

@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using GolfTalk.Models;
+﻿using GolfTalk.Models;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace GolfTalk.DataAccess
 {
-    public class GolfContext : DbContext
+    public class GolfContext : IdentityDbContext<ApplicationUser>
     {
+        public GolfContext()
+            : base("GolfContext", false)
+        {
+        }
 
-        public GolfContext() : base("GolfContext") { }
+        public static GolfContext Create()
+        {
+            return new GolfContext();
+        }
 
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Hole> Holes { get; set; }
@@ -20,6 +24,7 @@ namespace GolfTalk.DataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }

@@ -1,26 +1,24 @@
 ﻿using GolfTalk.DataAccess;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace GolfTalk.Helpers
 {
     public static class ScoreHelper
     {
-        public static int CalculateScore(Guid teamId)
+        public static int CalculateScore(long teamId)
         {
-            int score = 0;
-            int par = 0;
-            GolfContext db = new GolfContext();
+            var score = 0;
+            var par = 0;
+            var db = new GolfContext();
 
-            List<GolfTalk.Models.Score> currentScores = db.Scores.Where(s => s.TeamID == teamId).ToList();
+            var currentScores = db.Scores.Where(s => s.TeamID.Equals(teamId)).ToList();
 
             // tally up both the total score for the team, and also the pars for the holes they've completed
-            for (int i = 0; i < currentScores.Count(); i++)
+            for (var i = 0; i < currentScores.Count(); i++)
             {
                 score += currentScores[i].Strokes;
-                int holeId = currentScores[i].HoleID;
-                GolfTalk.Models.Hole thisHole = db.Holes.Where(h => h.HoleID == holeId).FirstOrDefault();
+                var holeId = currentScores[i].HoleID;
+                var thisHole = db.Holes.FirstOrDefault(h => h.HoleID == holeId);
                 if (thisHole != null)
                 {
                     par += thisHole.Par;
@@ -30,21 +28,15 @@ namespace GolfTalk.Helpers
             return score - par;
         }
 
-        public static int CalculateThru(Guid teamId)
+        public static int CalculateThru(long teamId)
         {
-            GolfContext db = new GolfContext();
-            List<GolfTalk.Models.Score> scores = db.Scores.Where(s => s.TeamID == teamId).ToList();
+            var db = new GolfContext();
+            var scores = db.Scores.Where(s => s.TeamID == teamId).ToList();
 
-            if (scores.Count() > 0)
-            {
-                GolfTalk.Models.Score lastScore = scores.OrderByDescending(x => x.Hole.HoleNumber).FirstOrDefault();
+            if (!scores.Any()) return 0;
 
-                if (lastScore != null)
-                {
-                    return lastScore.Hole.HoleNumber;
-                }
-            }
-            return 0;
+            var lastScore = scores.OrderByDescending(x => x.Hole.HoleNumber).FirstOrDefault();
+            return lastScore?.Hole.HoleNumber ?? 0;
         }
     }
 }

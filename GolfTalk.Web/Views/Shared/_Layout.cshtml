@@ -3,21 +3,25 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GolfTalk</title>
+    <title>The Open</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="@Url.Content("~/content/fontawesome/css/font-awesome.min.css")">
     <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">GolfTalk <script type="text/javascript">document.write(new Date().getFullYear());</script></a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">The Open <script type="text/javascript">document.write(new Date().getFullYear());</script></a>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="@Url.Action("add", "scores")">Add Score</a></li>
-               
-            </ul>
+            @Html.Partial("_LoginPartial")
         </div>
     </nav>
     <div class="container">
@@ -26,7 +30,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
 
       @RenderSection("Scripts", required: false)
