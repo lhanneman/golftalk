@@ -34,8 +34,7 @@ namespace GolfTalk.Controllers
                                   Name = t.Name,
                                   Score = ScoreHelper.CalculateScore(t.TeamID),
                                   Thru = ScoreHelper.CalculateThru(t.TeamID),
-                                  TeamID = t.TeamID//,
-                                  //PlayerNames = t.TeamMembers
+                                  TeamID = t.TeamID
                               }).ToList();
 
             vm.TeamScores = teamScores.OrderBy(t => t.Score).ToList();
@@ -71,7 +70,7 @@ namespace GolfTalk.Controllers
 
         [HttpPost]
         [Authorize]
-        public JsonResult SendTrashTalkMessage(string message)
+        public JsonResult SendTrashTalkMessage(string message, int timezoneOffset)
         {
             if (string.IsNullOrEmpty(message))
             {
@@ -92,7 +91,7 @@ namespace GolfTalk.Controllers
                 messageFrom = !string.IsNullOrEmpty(user.DisplayName) ? user.DisplayName : user.Email;
             }
 
-            message = message + "<i> -" + messageFrom + " @ " + DateTime.Now.ToShortTimeString() + "</i>";
+            message = message + "<i> -" + messageFrom + " @ " + DateTime.UtcNow.AddMinutes(-1 * timezoneOffset).ToShortTimeString() + "</i>";
 
             Context.Chats.Add(new Chat
             {

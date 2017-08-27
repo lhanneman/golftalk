@@ -9,7 +9,5 @@ namespace GolfTalk.Models
         public long TeamID { get; set; }
         public string Message { get; set; }
         public virtual Team Team { get; set; }
-
-        public  string test { get; set; }
     }
 }

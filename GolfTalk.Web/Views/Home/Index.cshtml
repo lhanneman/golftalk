@@ -46,7 +46,9 @@
                 }
                 else
                 {
-                    <div>please register or login to add a score</div>
+                    <div class="add-score-login-warning">
+                        You must be logged in to add a score. Please login or register.
+                    </div>
                 }
             </div>
             <div id="comments" class="tab-pane fade in">
@@ -107,7 +109,7 @@
                 $.ajax({
                     type: "POST",
                     url: "@Url.Content("~/scores/add")",
-                    data: JSON.stringify({ Strokes: strokes, HoleNumber: holeNum }),
+                    data: JSON.stringify({ Strokes: strokes, HoleNumber: holeNum, TimezoneOffset: new Date().getTimezoneOffset() }),
                     contentType: "application/json",
                     success: function (json) {
                         if (json !== null && json !== undefined && json !== "") {
@@ -126,7 +128,7 @@
                 $.ajax({
                     type: 'POST',
                     url: "@Url.Action("SendTrashTalkMessage", "Home")",
-                    data: { message: $("#feed-message").val() },
+                    data: { message: $("#feed-message").val(), TimezoneOffset: new Date().getTimezoneOffset() },
                     success: ParseMessage,
                     error: ShowError
                 });
@@ -135,7 +137,6 @@
             $("#feed-message").keydown(function (e) {
                 var keyCode = e.keyCode || e.which;
                 if (keyCode === 13) {
-                    // enter:
                     $("#feed-button").click();
                 }
                 return true;
@@ -171,7 +172,7 @@
                     clearCommentBadgeCount();
                 }
 
-                setTimeout(function () { $(".new-item:last").removeClass("new-item"); }, 5000);
+                setTimeout(function () { $(".new-item:last").removeClass("new-item"); }, 3000);
             }
 
             hub.client.updateScore = function (teamId, score, thru) {
@@ -187,7 +188,7 @@
                     teamRow.find("td[rel='thru']").html(thru);
                     teamRow.addClass("new-item");
 
-                    setTimeout(function () { teamRow.removeClass("new-item"); }, 5000);
+                    setTimeout(function () { teamRow.removeClass("new-item"); }, 3000);
                 }
             }
 
@@ -203,8 +204,7 @@
         }
 
         function incrementCommentBadgeCount() {
-            var commentLink = $("a[href='#comments'");
-            //var li = commentLink.parent();
+            var commentLink = $("a[href='#comments']");
             var badge = commentLink.find(".badge");
 
             if (badge.length === 0) {
@@ -217,8 +217,7 @@
         }
 
         function clearCommentBadgeCount() {
-            var commentLink = $("a[href='#comments'");
-            commentLink.find(".badge").remove();
+            $("a[href='#comments']").find(".badge").remove();
         }
 
     </script>

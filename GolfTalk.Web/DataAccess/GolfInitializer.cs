@@ -34,12 +34,21 @@ namespace GolfTalk.DataAccess
                 new Hole { HoleNumber = 18, Par = 5, Yards = 535 }
             };
 
+            //var teams = new List<Team>
+            //{
+            //    new Team { Name = "Team 1" },
+            //    new Team { Name = "Team 2" },
+            //    new Team { Name = "Team 3" },
+            //    new Team { Name = "Team 4" },
+            //};
+
             var teams = new List<Team>
             {
-                new Team { Name = "Team 1" },
-                new Team { Name = "Team 2" },
-                new Team { Name = "Team 3" },
-                new Team { Name = "Team 4" },
+                new Team { Name = "I Hit TK" },
+                new Team { Name = "Natural Hazards" },
+                new Team { Name = "Tap Tap Tappers" },
+                new Team { Name = "GET IN THE HOLE!" },
+                new Team { Name = "Grip It and Sip It" },
             };
 
             holes.ForEach(h => context.Holes.Add(h));

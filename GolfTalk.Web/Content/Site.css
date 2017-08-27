@@ -156,6 +156,10 @@ tr[completed-hole='true'] {
     background-color: #0091CA;
 }
 
+.add-score-login-warning {
+    padding: 10px;
+}
+
 @media only screen and (max-width: 640px) {
     .nav > li > a {
         padding: 10px 10px;

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using GolfTalk.DataAccess;
+﻿using GolfTalk.DataAccess;
 using GolfTalk.Helpers;
 using System.Linq;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using GolfTalk.SignalR;
 using GolfTalk.Models;
@@ -52,19 +50,20 @@ namespace GolfTalk.Controllers
                 score.Strokes = model.Strokes;
             }
 
-            var team = Context.Teams.FirstOrDefault(t => t.TeamID == teamId);
-            // var hole = Context.Holes.FirstOrDefault(h => h.HoleID.Equals(holeId));
-            var chatMessage = "";
+            // removing comment for score - per feedback
 
-            if (team != null && hole != null)
-            {
-                chatMessage = MessageBuilder.GetNewScoreMessage(hole.HoleNumber, team.Name, model.Strokes, hole.Par);
-                Context.Chats.Add(new Chat
-                {
-                    Message = chatMessage,
-                    TeamID = teamId
-                });
-            }
+            //var team = Context.Teams.FirstOrDefault(t => t.TeamID == teamId);
+            //var chatMessage = "";
+
+            //if (team != null && hole != null)
+            //{
+            //    chatMessage = MessageBuilder.GetNewScoreMessage(hole.HoleNumber, team.Name, model.Strokes, hole.Par, model.TimezoneOffset);
+            //    Context.Chats.Add(new Chat
+            //    {
+            //        Message = chatMessage,
+            //        TeamID = teamId
+            //    });
+            //}
 
             Context.SaveChanges();
 
@@ -74,9 +73,7 @@ namespace GolfTalk.Controllers
 
             // we need to broadcast this new chat message via signal R:
             ChatHub.UpdateScore(teamId.ToString(), updatedScore, thru);
-            ChatHub.Update(chatMessage);
-
-            //return RedirectToAction("Index", "Home", new { teamId = teamId.ToString() });
+            // ChatHub.Update(chatMessage);
 
             // return the next hole:
             return nextHole != null ? JsonConvert.SerializeObject(new ScoreViewModel() { HoleNumber = nextHole.HoleNumber, Strokes = nextHole.Par }) : "";

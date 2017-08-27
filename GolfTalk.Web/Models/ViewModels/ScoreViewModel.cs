@@ -7,6 +7,7 @@ namespace GolfTalk.Models.ViewModels
     {
         public int Strokes { get; set; }
         public int HoleNumber { get; set; }
+        public int TimezoneOffset { get; set; }
 
         public ScoreViewModel()
         {

@@ -6,11 +6,10 @@ using GolfTalk.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Linq;
-
-//using SendGrid.Helpers.Mail; // Include if you want to use the Mail Helper
+using System;
+using SendGrid;
 
 namespace GolfTalk.Controllers
 {
@@ -73,8 +72,11 @@ namespace GolfTalk.Controllers
             {
                 ModelState.AddModelError("Invalid Team", "Invalid Team");
             }
-        
-            if (!ModelState.IsValid) return View(model);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email, DisplayName = model.DisplayName, TeamID = model.TeamID };
             var result = await UserManager.CreateAsync(user, model.Password);
@@ -196,24 +198,22 @@ namespace GolfTalk.Controllers
 
         private async Task<dynamic> SendEmailConfirmation(ApplicationUser user)
         {
-            //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+            ////await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-            // Send an email with this link
+            //// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+            //// Send an email with this link
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { token = user.Id, code = code }, protocol: Request.Url.Scheme);
-            const string apiKey = "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";
-            dynamic sg = new SendGridAPIClient(apiKey);
 
-            var from = new Email("admin@YOURSITE.com");
+            var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("admin@YOURSITE.com", "Example User");
             var subject = "Confirm your YOURSITE account";
-            var to = new Email(user.Email);
-            var content = new Content("text/html", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-            var mail = new Mail(from, subject, to, content);
-
-            dynamic response = await sg.client.mail.send.post(requestBody: mail.Get());
-            //await sg.client.mail.send.post(requestBody: mail.Get());
-            return response;
+            var to = new EmailAddress(user.Email, user.DisplayName);
+            var plainTextContent = "Please confirm your account by clicking this link or pasting it into your browser: " + callbackUrl;
+            var htmlContent = "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            return await client.SendEmailAsync(msg);
         }
     }
 }

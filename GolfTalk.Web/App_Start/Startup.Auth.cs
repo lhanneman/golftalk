@@ -5,7 +5,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using GolfTalk.Models;
-using GolfTalk;
 using GolfTalk.DataAccess;
 
 namespace GolfTalk

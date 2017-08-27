@@ -5,7 +5,7 @@ namespace GolfTalk.Helpers
 {
     public static class MessageBuilder
     {
-        public static string GetNewScoreMessage(int holeNumber, string teamName, int strokes, int par)
+        public static string GetNewScoreMessage(int holeNumber, string teamName, int strokes, int par, int timezoneOffset)
         {
             var sb = new StringBuilder();
             var good = strokes <= par;
@@ -72,7 +72,7 @@ namespace GolfTalk.Helpers
             }
 
             sb.Append("hole " + holeNumber);
-            sb.Append(" <i>@ " + DateTime.Now.ToShortTimeString() + "</i>");
+            sb.Append(" <i>@ " + DateTime.UtcNow.AddMinutes(-1 * timezoneOffset).ToShortTimeString() + "</i>");
 
             return sb.ToString();
         }
