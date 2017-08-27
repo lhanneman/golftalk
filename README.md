@@ -1,14 +1,34 @@
 ## GolfTalk
 
-GolfTalk is a very basic, real-time score-keeping mobile site for golf tournaments/scrambles. It allows users to update their score, see other teams' scores, and also talk trash to the other teams.
+GolfTalk is a real-time score-keeping web app for 
+golf tournaments/scrambles. It allows users to update their score, 
+see other teams' scores, and also talk trash to the other teams.
 
 ## Motivation
 
-GolfTalk exists because I wanted a way to make our employer-sponsored golf outing a little more fun. Rather than having all the teams finish their rounds, and see how everyone did at the end, I thought it would make things more interesting if we could see the scores in real-time, and also talk a little trash along the way. :)
+GolfTalk exists because I wanted a way to make our employer-sponsored 
+golf outing a little more fun. Rather than having all the teams finish 
+their rounds, and see how everyone did at the end, I thought it would 
+make things more interesting if we could see the scores in real-time, 
+and also talk a little trash along the way. :)
 
 ## Installation
 
-No installation necessary - just open the solution in Visual Studio. This project is written in C# using Entity Framework, but uses jQuery and SignalR for the score updates and trash talk messages, and a Boostrap layout so it is mobile friendly out on the course. It can be easily deployed to Azure or any other hosting service to get up and running in no time.
+No installation necessary - just open the solution in Visual Studio. 
+This project is written in C# using Entity Framework, but uses jQuery 
+and SignalR for the score updates and trash talk messages, and a 
+Boostrap layout so it is mobile friendly out on the course. It can be 
+easily deployed to Azure or any other hosting service to get up and 
+running in no time.
+
+When running the solution for the first time you'll need to update the
+web.config to point to your SQL server, add your first EF migration, 
+and update the database. From the package manager console, run:
+
+```
+add-migration initialMigration
+update-database
+```
 
 ## Docs
 
