@@ -1,9 +1,8 @@
-﻿using GolfTalk.DataAccess;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace GolfTalk.Models
+namespace GolfTalk.Web.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

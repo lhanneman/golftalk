@@ -1,8 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
-using GolfTalk.DataAccess;
-using GolfTalk.Models;
+using GolfTalk.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -18,11 +17,11 @@ namespace GolfTalk.Controllers
 
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private GolfContext Context { get; }
+        
 
         public AccountController()
         {
-            Context = new GolfContext();
+            
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -67,11 +66,11 @@ namespace GolfTalk.Controllers
         {
 
             // check if team is full:
-            var team = Context.Teams.FirstOrDefault(t => t.TeamID.Equals(model.TeamID));
-            if (team == null)
-            {
-                ModelState.AddModelError("Invalid Team", "Invalid Team");
-            }
+            //var team = Context.Teams.FirstOrDefault(t => t.TeamID.Equals(model.TeamID));
+            //if (team == null)
+            //{
+            //    ModelState.AddModelError("Invalid Team", "Invalid Team");
+            //}
 
             if (!ModelState.IsValid)
             {

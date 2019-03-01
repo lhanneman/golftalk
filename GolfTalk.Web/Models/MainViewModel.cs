@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GolfTalk.Models.ViewModels
+namespace GolfTalk.Web.Models
 {
-    [NotMapped]
     public class MainViewModel
     {
         public List<TeamsScore> TeamScores { get; set; }

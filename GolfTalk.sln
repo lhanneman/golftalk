@@ -1,9 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfTalk.Web", "GolfTalk.Web\GolfTalk.Web.csproj", "{DA70DB9C-D9B9-4E15-9BA9-1B55BE75D8BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Contracts", "0. Contracts", "{AAFEC436-C7AD-4D26-8D6E-B80557B214A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Clients", "1. Clients", "{7A863485-99C7-4E67-A1FC-52A0342CEA49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Managers", "2. Managers", "{D0B5E7B7-E41F-427F-9B9E-D678061D023D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Accessors", "3. Accessors", "{FDD0B384-5260-499B-8205-601A0639760B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Database", "4. Database", "{92BEADF3-D9A9-408C-B388-B0DC6C2879D9}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GolfTalk.Database", "GolfTalk.Database\GolfTalk.Database.sqlproj", "{3ED4B38F-4F01-4922-8C9A-5F3317736E6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfTalk.Accessors", "GolfTalk.Accessors\GolfTalk.Accessors.csproj", "{FAFD1FAF-74A5-42F2-B6F3-D12F7137304B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfTalk.Contracts", "GolfTalk.Contracts\GolfTalk.Contracts.csproj", "{702A0FE5-2C3D-404A-B29E-D2DD714997AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +31,31 @@ Global
 		{DA70DB9C-D9B9-4E15-9BA9-1B55BE75D8BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA70DB9C-D9B9-4E15-9BA9-1B55BE75D8BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA70DB9C-D9B9-4E15-9BA9-1B55BE75D8BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ED4B38F-4F01-4922-8C9A-5F3317736E6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ED4B38F-4F01-4922-8C9A-5F3317736E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ED4B38F-4F01-4922-8C9A-5F3317736E6C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3ED4B38F-4F01-4922-8C9A-5F3317736E6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ED4B38F-4F01-4922-8C9A-5F3317736E6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ED4B38F-4F01-4922-8C9A-5F3317736E6C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{FAFD1FAF-74A5-42F2-B6F3-D12F7137304B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAFD1FAF-74A5-42F2-B6F3-D12F7137304B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAFD1FAF-74A5-42F2-B6F3-D12F7137304B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAFD1FAF-74A5-42F2-B6F3-D12F7137304B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{702A0FE5-2C3D-404A-B29E-D2DD714997AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702A0FE5-2C3D-404A-B29E-D2DD714997AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{702A0FE5-2C3D-404A-B29E-D2DD714997AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{702A0FE5-2C3D-404A-B29E-D2DD714997AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DA70DB9C-D9B9-4E15-9BA9-1B55BE75D8BC} = {7A863485-99C7-4E67-A1FC-52A0342CEA49}
+		{3ED4B38F-4F01-4922-8C9A-5F3317736E6C} = {92BEADF3-D9A9-408C-B388-B0DC6C2879D9}
+		{FAFD1FAF-74A5-42F2-B6F3-D12F7137304B} = {FDD0B384-5260-499B-8205-601A0639760B}
+		{702A0FE5-2C3D-404A-B29E-D2DD714997AB} = {AAFEC436-C7AD-4D26-8D6E-B80557B214A7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {428A79D8-E92E-4A0F-9A8F-3EF0B254AC18}
 	EndGlobalSection
 EndGlobal
