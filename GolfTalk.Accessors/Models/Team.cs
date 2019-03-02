@@ -5,5 +5,8 @@
         public long Id { get; set; }
 
         public string Name { get; set; }
+
+        public  virtual Score[] Scores { get; set; }
+
     }
 }

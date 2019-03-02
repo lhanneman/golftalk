@@ -88,13 +88,13 @@ namespace GolfTalk.Web.Models
         [Display(Name = "Team")]
         public long TeamID { get; set; }
 
-        public List<Team> TeamList { get; set; }
+       // public List<Team> TeamList { get; set; }
 
-        public RegisterViewModel()
-        {
-            var db = new GolfContext();
-            TeamList = db.Teams.ToList();
-        }
+        //public RegisterViewModel()
+        //{
+        //    var db = new GolfContext();
+        //    TeamList = db.Teams.ToList();
+        //}
     }
 
     public class ResetPasswordViewModel

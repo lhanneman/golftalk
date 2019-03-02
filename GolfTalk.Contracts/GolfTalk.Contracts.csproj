@@ -41,16 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accessor\IChatAccessor.cs" />
+    <Compile Include="Accessor\IHoleAccessor.cs" />
+    <Compile Include="Accessor\ITeamAccessor.cs" />
     <Compile Include="DataContracts\Chat.cs" />
+    <Compile Include="DataContracts\FindTeamRequest.cs" />
     <Compile Include="DataContracts\Hole.cs" />
     <Compile Include="DataContracts\Score.cs" />
     <Compile Include="DataContracts\Team.cs" />
     <Compile Include="DataContracts\User.cs" />
+    <Compile Include="Manager\IChatManager.cs" />
+    <Compile Include="Manager\IHoleManager.cs" />
+    <Compile Include="Manager\ITeamManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Accessor\" />
-    <Folder Include="Manager\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

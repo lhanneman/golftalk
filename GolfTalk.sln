@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfTalk.Accessors", "GolfT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfTalk.Contracts", "GolfTalk.Contracts\GolfTalk.Contracts.csproj", "{702A0FE5-2C3D-404A-B29E-D2DD714997AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfTalk.Managers", "GolfTalk.Managers\GolfTalk.Managers.csproj", "{A02308D8-3A79-4496-B2DE-64BD315A54CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{702A0FE5-2C3D-404A-B29E-D2DD714997AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{702A0FE5-2C3D-404A-B29E-D2DD714997AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{702A0FE5-2C3D-404A-B29E-D2DD714997AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A02308D8-3A79-4496-B2DE-64BD315A54CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A02308D8-3A79-4496-B2DE-64BD315A54CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A02308D8-3A79-4496-B2DE-64BD315A54CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A02308D8-3A79-4496-B2DE-64BD315A54CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 		{3ED4B38F-4F01-4922-8C9A-5F3317736E6C} = {92BEADF3-D9A9-408C-B388-B0DC6C2879D9}
 		{FAFD1FAF-74A5-42F2-B6F3-D12F7137304B} = {FDD0B384-5260-499B-8205-601A0639760B}
 		{702A0FE5-2C3D-404A-B29E-D2DD714997AB} = {AAFEC436-C7AD-4D26-8D6E-B80557B214A7}
+		{A02308D8-3A79-4496-B2DE-64BD315A54CC} = {D0B5E7B7-E41F-427F-9B9E-D678061D023D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {428A79D8-E92E-4A0F-9A8F-3EF0B254AC18}

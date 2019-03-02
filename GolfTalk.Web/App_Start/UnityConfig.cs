@@ -1,3 +1,5 @@
+using GolfTalk.Contracts.Accessor;
+using GolfTalk.Contracts.Manager;
 using GolfTalk.Controllers;
 using GolfTalk.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -52,8 +54,8 @@ namespace GolfTalk
             container.RegisterType<AccountController>();
             container.RegisterType<ErrorController>();
             container.RegisterType<HomeController>();
-            container.RegisterType<ScoreboardController>();
-            container.RegisterType<ScoresController>();
+            //container.RegisterType<ScoreboardController>();
+            //container.RegisterType<ScoresController>();
 
             container.RegisterType<ApplicationDbContext>(new PerRequestLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(
@@ -61,13 +63,14 @@ namespace GolfTalk
                 new InjectionConstructor(new ResolvedParameter<ApplicationDbContext>()));
 
             // Accessors
-            //container.RegisterType<IDealershipAccessor, Accessors.DealershipAccessor>();
-           
-
-           
+            container.RegisterType<IChatAccessor, Accessors.ChatAccessor>();
+            container.RegisterType<IHoleAccessor, Accessors.HoleAccessor>();
+            container.RegisterType<ITeamAccessor, Accessors.TeamAccessor>();
 
             // Managers
-           //container.RegisterType<Contracts.Manager.IDealershipManager, Managers.DealershipManager>();
+            container.RegisterType<IChatManager, Managers.ChatManager>();
+            container.RegisterType<IHoleManager, Managers.HoleManager>();
+            container.RegisterType<ITeamManager, Managers.TeamManager>();
         }
     }
 }

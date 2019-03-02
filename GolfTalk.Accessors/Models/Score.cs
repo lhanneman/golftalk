@@ -10,7 +10,7 @@
 
         public int Strokes { get; set; }
 
-        public virtual Team Team { get; set; }
+        // public virtual Team Team { get; set; }
 
         public virtual Hole Hole { get; set; }
     }

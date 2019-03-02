@@ -1,20 +1,19 @@
-﻿using GolfTalk.DataAccess;
-using System.Data.Entity;
-using System.Web;
+﻿using GolfTalk.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace GolfTalk
 {
-    public class MvcApplication : HttpApplication
+    public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+            AreaConfig.RegisterAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<GolfContext>());
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }

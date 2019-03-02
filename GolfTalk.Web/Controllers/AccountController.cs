@@ -77,7 +77,7 @@ namespace GolfTalk.Controllers
                 return View(model);
             }
 
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, DisplayName = model.DisplayName, TeamID = model.TeamID };
+            var user = new ApplicationUser { UserName = model.DisplayName, Email = model.Email };
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
@@ -208,7 +208,7 @@ namespace GolfTalk.Controllers
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("admin@YOURSITE.com", "Example User");
             var subject = "Confirm your YOURSITE account";
-            var to = new EmailAddress(user.Email, user.DisplayName);
+            var to = new EmailAddress(user.Email, user.UserName);
             var plainTextContent = "Please confirm your account by clicking this link or pasting it into your browser: " + callbackUrl;
             var htmlContent = "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
