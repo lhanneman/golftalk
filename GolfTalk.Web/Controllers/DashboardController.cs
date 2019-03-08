@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using GolfTalk.Web.Models;
 using System.Web.Mvc;
 
 namespace GolfTalk.Controllers
@@ -9,10 +6,15 @@ namespace GolfTalk.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        // GET: Dashboard
+        
         public ActionResult Index()
         {
-            return View();
+            var dashboard = new DashboardViewModel()
+            {
+
+            };
+
+            return View(dashboard);
         }
     }
 }

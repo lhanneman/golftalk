@@ -210,17 +210,20 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ScoreboardController.cs" />
     <Compile Include="Controllers\ScoresController.cs" />
+    <Compile Include="Controllers\TournamentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MessageBuilder.cs" />
     <Compile Include="Helpers\ScoreHelper.cs" />
     <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Models\TeamScore.cs" />
     <Compile Include="Models\ScoreViewModel.cs" />
     <Compile Include="Models\MainViewModel.cs" />
     <Compile Include="Models\ScoreboardViewModel.cs" />
+    <Compile Include="Models\TournamentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\ChatHub.cs" />
     <Compile Include="Startup.cs" />
@@ -275,7 +278,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Dashboard\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -296,7 +299,7 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\fileboundopen - Web Deploy.pubxml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GolfTalk.Accessors\GolfTalk.Accessors.csproj">
@@ -311,6 +314,9 @@
       <Project>{a02308d8-3a79-4496-b2de-64bd315a54cc}</Project>
       <Name>GolfTalk.Managers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tournaments\Add.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

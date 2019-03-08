@@ -1,0 +1,43 @@
+﻿@model GolfTalk.Web.Models.TournamentViewModel
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="error-summary alert alert-danger" role="alert">
+                @Html.ValidationSummary()
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Add", "Tournaments", FormMethod.Post, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.StartDate)
+                @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control date-picker" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.EndDate)
+                @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control date-picker" })
+            </div>
+        </div>
+    </div>
+
+}

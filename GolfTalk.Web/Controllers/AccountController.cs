@@ -147,7 +147,9 @@ namespace GolfTalk.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return string.IsNullOrWhiteSpace(returnUrl)
+                        ? RedirectToAction("Index", "Dashboard")
+                        : RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

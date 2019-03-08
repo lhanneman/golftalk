@@ -64,7 +64,7 @@
     <Folder Include="Scripts\PostDeployment" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Publish\GolfTalk.localdb.publish.publish.xml" />
+    <None Include="Publish\GolfTalk.localdb.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Chats.sql" />
