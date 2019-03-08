@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace GolfTalk.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ITeamManager teamManager;
@@ -42,14 +43,14 @@ namespace GolfTalk.Controllers
         {
             var vm = new MainViewModel
             {
-                TeamScores = teamManager.ListTeams().Select(t => new TeamsScore()
-                {
-                    Name = t.Name,
-                    Score = 0,//ScoreHelper.CalculateScore(t.Id),
-                    Thru = 0,//ScoreHelper.CalculateThru(t.Id),
-                    TeamID = t.Id
-                }).OrderBy(t => t.Score).ToArray(),
-                ChatEntries = chatManager.ListChats().OrderByDescending(c => c.Id).Take(25).ToArray()
+                //TeamScores = teamManager.ListTeams().Select(t => new TeamsScore()
+                //{
+                //    Name = t.Name,
+                //    Score = 0,//ScoreHelper.CalculateScore(t.Id),
+                //    Thru = 0,//ScoreHelper.CalculateThru(t.Id),
+                //    TeamID = t.Id
+                //}).OrderBy(t => t.Score).ToArray(),
+                //ChatEntries = chatManager.ListChats().OrderByDescending(c => c.Id).Take(25).ToArray()
             };
 
             // if team ID still isn't null, show the teams name on the top of the page:
@@ -67,21 +68,21 @@ namespace GolfTalk.Controllers
 
             // check current hole scores for this team, and default the dropdown to the next hole they'll pick.
             // For example, if the last score they entered was for hole 3, we'll default the dropdown to select hole 4 so they don't have to:
-            var last = team.Scores.OrderByDescending(h => h.Hole.HoleNumber).FirstOrDefault();
+            //var last = team.Scores.OrderByDescending(h => h.Hole.HoleNumber).FirstOrDefault();
 
-            var holes = holeManager.ListHoles();
+            //var holes = holeManager.ListHoles();
 
-            if (last != null)
-            {
-                var lastHoleNumber = last.Hole.HoleNumber;
-                var nextHole = holes.FirstOrDefault(h => h.HoleNumber.Equals(lastHoleNumber + 1));
-                vm.ScoreData.HoleNumber = nextHole?.HoleNumber ?? 1;
-            }
+            //if (last != null)
+            //{
+            //    var lastHoleNumber = last.Hole.HoleNumber;
+            //    var nextHole = holes.FirstOrDefault(h => h.HoleNumber.Equals(lastHoleNumber + 1));
+            //    vm.ScoreData.HoleNumber = nextHole?.HoleNumber ?? 1;
+            //}
 
-            // we need to tell the page what the par is for this current hole so we can default the "strokes" dropdown to that value:
-            var hole = holes.FirstOrDefault(h => h.HoleNumber.Equals(vm.ScoreData.HoleNumber));
+            //// we need to tell the page what the par is for this current hole so we can default the "strokes" dropdown to that value:
+            //var hole = holes.FirstOrDefault(h => h.HoleNumber.Equals(vm.ScoreData.HoleNumber));
 
-            vm.ScoreData.Strokes = hole?.Par ?? 4; // default strokes this hole to par
+            //vm.ScoreData.Strokes = hole?.Par ?? 4; // default strokes this hole to par
 
             return View(vm);
         }
@@ -123,7 +124,7 @@ namespace GolfTalk.Controllers
             //});
             //Context.SaveChanges();
 
-            chatManager.SaveMessage(team.Id, message);
+            //chatManager.SaveMessage(team.Id, message);
 
             ChatHub.Update(message);
             return Json("Success");

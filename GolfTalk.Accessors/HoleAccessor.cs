@@ -15,7 +15,9 @@ namespace GolfTalk.Accessors
                     HoleNumber = h.HoleNumber,
                     Id = h.Id,
                     Par = h.Par,
-                    Yards = h.Yards
+                    Yards = h.Yards,
+                    CourseId = h.CourseId,
+                    Handicap = h.Handicap
                 }).ToArray();
             }
         }

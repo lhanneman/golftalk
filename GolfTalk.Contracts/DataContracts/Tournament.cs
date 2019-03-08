@@ -2,13 +2,15 @@
 
 namespace GolfTalk.DataContracts
 {
-    public class Team
+    public class Tournament
     {
         public long Id { get; set; }
 
-        public long TournamentId { get; set; }
-
         public string Name { get; set; }
+
+        public DateTimeOffset StartDateUtc { get; set; }
+
+        public DateTimeOffset EndDateUtc { get; set; }
 
         public DateTimeOffset CreatedAtUtc { get; set; }
     }

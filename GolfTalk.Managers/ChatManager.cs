@@ -18,9 +18,9 @@ namespace GolfTalk.Managers
             return chatAccessor.ListChats();
         }
 
-        public void SaveMessage(long teamId, string message)
+        public void SaveMessage(long tournamentId, string message, string sentByUserId)
         {
-            chatAccessor.SaveMessage(teamId, message);
+            chatAccessor.SaveMessage(tournamentId, message, sentByUserId);
         }
     }
 }

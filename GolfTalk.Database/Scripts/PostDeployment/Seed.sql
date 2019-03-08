@@ -27,5 +27,51 @@ when not matched by Target then
 insert ([Id], [Email], [PasswordHash], [SecurityStamp], [UserName], [EmailConfirmed], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnabled], [AccessFailedCount], [FirstName], [LastName], [CreatedAtUtc])
 values ([Id], [Email], [PasswordHash], [SecurityStamp], [UserName], [EmailConfirmed], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnabled], [AccessFailedCount], [FirstName], [LastName], [CreatedAtUtc]);
 
--- add 18 holes
+-- add a course
 
+
+merge into dbo.Courses as Target
+using ( values
+
+	(N'Thornridge Golf Course', N'Located in Milford, NE', getutcdate())
+	
+) as Source ([Name], [Description], [CreatedAtUtc])
+on Target.[Name]= Source.[Name]
+when not matched by Target then
+insert ([Name], [Description], [CreatedAtUtc])
+values ([Name], [Description], [CreatedAtUtc]);
+
+
+declare @defaultCourseId int;
+select @defaultCourseId = Id from dbo.Courses Where [name] = 'Thornridge Golf Course'
+
+-- create the holes for the course
+--http://www.thornridgegolfcourse.com/rates/ (using Regular teebox for yards)
+
+merge into dbo.Holes as Target
+using ( values
+
+	(@defaultCourseId, 1, 4, 283, 8),
+	(@defaultCourseId, 2, 5, 491, 2),
+	(@defaultCourseId, 3, 4, 336, 4),
+	(@defaultCourseId, 4, 3, 167, 7),
+	(@defaultCourseId, 5, 4, 370, 3),
+	(@defaultCourseId, 6, 3, 133, 9),
+	(@defaultCourseId, 7, 4, 334, 5),
+	(@defaultCourseId, 8, 4, 334, 6),
+	(@defaultCourseId, 9, 5, 492, 1),
+	(@defaultCourseId, 10, 4, 283, 8),
+	(@defaultCourseId, 11, 5, 491, 2),
+	(@defaultCourseId, 12, 4, 336, 4),
+	(@defaultCourseId, 13, 3, 167, 7),
+	(@defaultCourseId, 14, 4, 370, 3),
+	(@defaultCourseId, 15, 3, 133, 9),
+	(@defaultCourseId, 16, 4, 334, 5),
+	(@defaultCourseId, 17, 4, 334, 6),
+	(@defaultCourseId, 18, 5, 492, 1)
+	
+) as Source ([CourseId], [HoleNumber], [Par], [Yards], [Handicap])
+on Target.[CourseId]= Source.[CourseId] and Target.[HoleNumber] = Source.[HoleNumber]
+when not matched by Target then
+insert ([CourseId], [HoleNumber], [Par], [Yards], [Handicap])
+values ([CourseId], [HoleNumber], [Par], [Yards], [Handicap]);

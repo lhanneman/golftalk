@@ -6,6 +6,6 @@ namespace GolfTalk.Contracts.Accessor
     {
         Chat[] ListChats();
 
-        void SaveMessage(long teamId, string message);
+        void SaveMessage(long tournamentId, string message, string sentByUserId);
     }
 }

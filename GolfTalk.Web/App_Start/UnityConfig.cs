@@ -51,7 +51,7 @@ namespace GolfTalk
             // container.RegisterType<IProductRepository, ProductRepository>();
 
             // controllers:
-            container.RegisterType<AccountController>();
+            container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<ErrorController>();
             container.RegisterType<HomeController>();
             //container.RegisterType<ScoreboardController>();

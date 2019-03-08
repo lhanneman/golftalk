@@ -14,25 +14,22 @@ namespace GolfTalk.Accessors
                 {
                     Id = c.Id,
                     Message = c.Message,
-                    TeamId = c.TeamId,
-                    Team = new Team()
-                    {
-                        Id = c.Team.Id,
-                        Name = c.Team.Name,
-                        //Scores 
-                    }
+                    TournamentId = c.TournamentId,
+                    CreatedAtUtc = c.CreatedAtUtc,
+                    SentByUserId = c.SentByUserId,
                 }).ToArray();
             }
         }
 
-        public void SaveMessage(long teamId, string message)
+        public void SaveMessage(long tournamentId, string message, string sentByUserId)
         {
             using (var db = new GolfContext())
             {
                 var model = new Models.Chat()
                 {
                     Message = message,
-                    TeamId = teamId,
+                    TournamentId = tournamentId,
+                    SentByUserId = sentByUserId,
                 };
 
                 db.Chats.Add(model);

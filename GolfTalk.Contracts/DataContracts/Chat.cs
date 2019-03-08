@@ -1,13 +1,17 @@
-﻿namespace GolfTalk.DataContracts
+﻿using System;
+
+namespace GolfTalk.DataContracts
 {
     public class Chat
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
-        public long TeamId { get; set; }
+        public string SentByUserId { get; set; }
+
+        public long TournamentId { get; set; }
 
         public string Message { get; set; }
 
-        public virtual Team Team { get; set; }
+        public DateTimeOffset CreatedAtUtc { get; set; }
     }
 }

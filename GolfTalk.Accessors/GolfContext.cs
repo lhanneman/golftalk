@@ -19,6 +19,8 @@ namespace GolfTalk.Accessors
         public DbSet<Score> Scores { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamUser> TeamUsers { get; set; }
+        public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<Course> Courses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -28,6 +30,8 @@ namespace GolfTalk.Accessors
             modelBuilder.Entity<Team>().HasKey(m => m.Id);
             modelBuilder.Entity<Score>().HasKey(m => m.Id);
             modelBuilder.Entity<TeamUser>().HasKey(m => m.Id);
+            modelBuilder.Entity<Tournament>().HasKey(m => m.Id);
+            modelBuilder.Entity<Course>().HasKey(m => m.Id);
         }
     }
 }
