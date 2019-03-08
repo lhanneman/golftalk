@@ -44,6 +44,8 @@
     <Compile Include="Accessor\IChatAccessor.cs" />
     <Compile Include="Accessor\IHoleAccessor.cs" />
     <Compile Include="Accessor\ITeamAccessor.cs" />
+    <Compile Include="Accessor\ITournamentAccessor.cs" />
+    <Compile Include="DataContracts\AddTournamentRequest.cs" />
     <Compile Include="DataContracts\Chat.cs" />
     <Compile Include="DataContracts\Course.cs" />
     <Compile Include="DataContracts\FindTeamRequest.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="Manager\IChatManager.cs" />
     <Compile Include="Manager\IHoleManager.cs" />
     <Compile Include="Manager\ITeamManager.cs" />
+    <Compile Include="Manager\ITournamentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

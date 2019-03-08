@@ -54,6 +54,7 @@ namespace GolfTalk
             container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<ErrorController>();
             container.RegisterType<HomeController>();
+            container.RegisterType<TournamentsController>();
             //container.RegisterType<ScoreboardController>();
             //container.RegisterType<ScoresController>();
 
@@ -66,11 +67,13 @@ namespace GolfTalk
             container.RegisterType<IChatAccessor, Accessors.ChatAccessor>();
             container.RegisterType<IHoleAccessor, Accessors.HoleAccessor>();
             container.RegisterType<ITeamAccessor, Accessors.TeamAccessor>();
+            container.RegisterType<ITournamentAccessor, Accessors.TournamentAccessor>();
 
             // Managers
             container.RegisterType<IChatManager, Managers.ChatManager>();
             container.RegisterType<IHoleManager, Managers.HoleManager>();
             container.RegisterType<ITeamManager, Managers.TeamManager>();
+            container.RegisterType<ITournamentManager, Managers.TournamentManager>();
         }
     }
 }

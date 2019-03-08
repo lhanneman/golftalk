@@ -39,5 +39,20 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.TimeZone, new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.TimeZone, System.TimeZoneInfo.GetSystemTimeZones().Select(tz => new SelectListItem() { Text = tz.DisplayName, Value = tz.StandardName, Selected = Model.TimeZone == tz.StandardName }).ToArray(), new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <button class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
 
 }

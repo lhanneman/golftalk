@@ -13,5 +13,7 @@ namespace GolfTalk.Accessors.Models
         public DateTimeOffset EndDateUtc { get; set; }
 
         public DateTimeOffset CreatedAtUtc { get; set; }
+
+        public string TimeZone { get; set; }
     }
 }

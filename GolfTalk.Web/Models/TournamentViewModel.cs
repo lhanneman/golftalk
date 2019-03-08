@@ -18,6 +18,10 @@ namespace GolfTalk.Web.Models
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
 
+        [Required]
+        [Display(Name = "Time Zone")]
+        public string TimeZone { get; set; }
+
         public DateTime CreatedAt { get; set; }
     }
 }

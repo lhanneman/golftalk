@@ -45,6 +45,7 @@
     <Compile Include="TeamManager.cs" />
     <Compile Include="ChatManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TournamentManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GolfTalk.Contracts\GolfTalk.Contracts.csproj">
