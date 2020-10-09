@@ -1,4 +1,4 @@
-﻿@model GolfTalk.Models.RegisterViewModel
+﻿@model GolfTalk.Web.Models.RegisterViewModel
 
 
 <h2>register new account</h2>
@@ -9,12 +9,12 @@
     <h4>Create a new account.</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
+    @*<div class="form-group">
         @Html.LabelFor(m => m.TeamID, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.TeamID, new SelectList(Model.TeamList, "TeamID", "Name"), new { @class = "form-control" })
         </div>
-    </div>
+    </div>*@
     <div class="form-group">
         @Html.LabelFor(m => m.DisplayName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">

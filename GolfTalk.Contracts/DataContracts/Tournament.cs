@@ -8,12 +8,10 @@ namespace GolfTalk.DataContracts
 
         public string Name { get; set; }
 
-        public DateTimeOffset StartDateUtc { get; set; }
+        public DateTimeOffset StartDate { get; set; }
 
-        public DateTimeOffset EndDateUtc { get; set; }
+        public DateTimeOffset EndDate { get; set; }
 
-        public DateTimeOffset CreatedAtUtc { get; set; }
-
-        public string TimeZone { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
     }
 }

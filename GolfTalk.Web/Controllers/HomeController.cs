@@ -59,12 +59,12 @@ namespace GolfTalk.Controllers
                 return View(vm);
             }
 
-            var team = teamManager.Find(new DataContracts.FindTeamRequest()
-            {
-                UserId = User.Identity.GetUserId()
-            });
+            //var team = teamManager.Find(new DataContracts.FindTeamRequest()
+            //{
+            //    UserId = User.Identity.GetUserId()
+            //});
 
-            vm.TeamName = team.Name;
+            //vm.TeamName = team.Name;
 
             // check current hole scores for this team, and default the dropdown to the next hole they'll pick.
             // For example, if the last score they entered was for hole 3, we'll default the dropdown to select hole 4 so they don't have to:
